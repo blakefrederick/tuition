@@ -37,3 +37,21 @@ plt.xlabel('Academic Year Start')
 plt.ylabel('Province')
 plt.title('Heatmap of Tuition Fees Over Time by Province ($)')
 plt.show()
+
+# Another heatmap, but this time to show percentage increases
+tuition_increase = tuition_df.pct_change().fillna(0) * 100
+tuition_increase = tuition_increase[tuition_increase.index > 2018]
+tuition_increase.index = tuition_increase.index.astype(int)
+
+plt.figure(figsize=(14, 10))
+ax = sns.heatmap(tuition_increase.transpose(), cmap='coolwarm', annot=True, fmt='.1f', linewidths=.5)
+
+# Get and set years as x
+years = tuition_increase.index.tolist() 
+ax.set_xticks(np.arange(len(years)))
+ax.set_xticklabels(years, rotation=0)
+
+plt.title('Percentage Increase in Tuition Fees Since 2019 by Province and Year')
+plt.xlabel('Year')
+plt.ylabel('Province')
+plt.show()
